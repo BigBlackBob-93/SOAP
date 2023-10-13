@@ -25,5 +25,12 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/convert/<temp>/<conversion>', methods=['GET'])
+def convert(temp: str, conversion: str):
+    conv: TempConvert = TempConvert.get_conversion(unit=conversion)
+    response = conv.convert(value=temp)
+    return response.text, {'Content-Type': 'application/xml'}
+
+
 if __name__ == '__main__':
     app.run(debug=True)
